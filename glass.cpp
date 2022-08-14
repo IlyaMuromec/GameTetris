@@ -316,3 +316,5 @@ void Glass::swapFigure(Figure* cur, Figure* next)
     *cur=*next;
     *next=tmp;
 }
+
+// add new methos
