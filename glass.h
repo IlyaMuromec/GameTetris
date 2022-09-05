@@ -1,6 +1,8 @@
+// This class describe glass. Glass is field for game
+// Class consist on grid cells
+
 #ifndef GLASS_H
 #define GLASS_H
-
 
 #include <QWidget>
 #include <QVector>
@@ -18,43 +20,43 @@ class Glass : public QWidget
 public:
     explicit Glass(QWidget *parent = nullptr);
 
-    uint rows() const;
-    void setRows(uint newRows);
+    uint rows() const; // getter
+    void setRows(uint newRows); // setter
 
-    unsigned int columns() const;
-    void setColumns(unsigned int newColumns);
+    unsigned int columns() const; // number of columns in glass
+    void setColumns(unsigned int newColumns); //setter
 
     void glassInit(void);
     void clearGlass(void);
-    void acceptColors();
-    void deleterHor(uint row, uint startHor, uint finishHor);
-    void deleterVer(uint column, uint startVer, uint finishVer);
-    bool findHor(void);
-    bool findVer(void);
-    void swapFigure(Figure* cur, Figure* next);
+    void acceptColors(); // paint cells of glass after figure have fallen to bottom, delete redundant cells, swapFigure()
+    void deleterHor(uint row, uint startHor, uint finishHor); // Delete three or more cells on row
+    void deleterVer(uint column, uint startVer, uint finishVer); // Delete three or more cells on column
+    bool findHor(void); // Analysis, are there three or more cells of the same color on row?
+    bool findVer(void); // Analysis, are there three or more cells of the same color on column?
+    void swapFigure(Figure* cur, Figure* next); // Set new next figure in glass
     virtual void paintEvent(QPaintEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
-    virtual void timerEvent(QTimerEvent *event);
+    virtual void timerEvent(QTimerEvent *event); // check finish of game and acceptColors()
     ~Glass();
 
 signals:
-    signalChangePattern(Figure*);
-    signalSetScore(int);
+    signalChangePattern(Figure*); //
+    signalSetScore(int); // set new score
 public slots:
-    void mySlotGame();
+    void mySlotGame(); //
 
 private:
-    uint m_rows;
-    uint m_columns;
-    const uint m_ceil=19; // size of cell
-    uint m_wGlass;
-    uint m_hGlass;
-    uint m_score;
-    bool m_gameOn;
-    int m_timerinterval;
-    QVector<QVector<QColor>> m_glassArray;
-    Figure *cur;
-    Figure *next;
+    uint m_rows; // number of rows in glass
+    uint m_columns; // number of columns in glass
+    const uint m_cell=19; // size of cell
+    uint m_wGlass; // height of glass
+    uint m_hGlass; // width og glass
+    uint m_score; // score of game
+    bool m_gameOn; // game continue flag
+    int m_timerinterval; // delay between steps
+    QVector<QVector<QColor>> m_glassArray; // create vector of vectors as a 2D-array
+    Figure *cur; // pointer on current figure
+    Figure *next; // pointer on next figure
     int m_idTimer;
 };
 

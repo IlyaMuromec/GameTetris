@@ -5,29 +5,33 @@
 #include <QRect>
 #include <QBrush>
 
-Figure::Figure(uint ceil)
+Figure::Figure(uint cell)
 {
-    m_ceil = ceil;
+    m_cell = cell;
     m_indxW=0;
     m_indxH=0;
     makeRandomColors();
 }
 
+// move down one step
 void Figure::stepDown()
 {
     m_indxH++;
 }
 
+// move right one step
 void Figure::stepRight()
 {
     m_indxW++;
 }
 
+// move left one step
 void Figure::stepLeft()
 {
     m_indxW--;
 }
 
+// setters
 void Figure::setIndxH(uint indxH)
 {
     m_indxH=indxH;
@@ -38,6 +42,7 @@ void Figure::setIndxW(uint indxW)
     m_indxW=indxW;
 }
 
+// getters
 uint Figure::indxH()
 {
     return m_indxH;
@@ -48,12 +53,12 @@ uint Figure::indxW()
     return m_indxW;
 }
 
-
 QColor Figure::color(uint indx)
 {
     return m_array[indx];
 }
 
+// rotate colors in figure up or down depend on push button
 void Figure::rotateColors(Qt::Key key)
 {
     if (key == Qt::Key_Down)
@@ -73,6 +78,7 @@ void Figure::rotateColors(Qt::Key key)
     else {}
 }
 
+// set random collors for cells from yellow, green, red, blue
 void Figure::makeRandomColors()
 {
     uint indx;
@@ -84,12 +90,13 @@ void Figure::makeRandomColors()
     }
 }
 
+// draw figure
 void Figure::paintFigure(QPainter& painter)
 {
     painter.setPen(Qt::NoPen);
     for(uint j=0; j<3; j++ )
     {
         painter.setBrush(this->color(j));
-        painter.drawRect(0, j*20, m_ceil, m_ceil);
+        painter.drawRect(0, j*20, m_cell, m_cell);
     }
 }

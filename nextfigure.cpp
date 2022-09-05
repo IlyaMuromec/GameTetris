@@ -12,12 +12,14 @@ NextFigure::NextFigure(QWidget *parent)
     Next = nullptr;
 }
 
+//
 void NextFigure::slotChangePattern(Figure *pfig)
 {
     Next = pfig;
     this->update();
 }
 
+//
 void NextFigure::paintEvent(QPaintEvent *event)
 {
     if(Next!=nullptr)

@@ -13,7 +13,7 @@ public:
 
 private:
     Figure * Next;
-    uint m_ceil=19;
+    uint m_cell=19; // size of cell
 signals:
 
 public slots:
