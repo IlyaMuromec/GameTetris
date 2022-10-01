@@ -96,7 +96,7 @@ void Figure::paintFigure(QPainter& painter)
     painter.setPen(Qt::NoPen);
     for(uint j=0; j<3; j++ )
     {
-        painter.setBrush(this->color(j));
+        painter.setBrush(this->color(2-j));
         painter.drawRect(0, j*20, m_cell, m_cell);
     }
 }

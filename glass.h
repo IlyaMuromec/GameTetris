@@ -1,5 +1,8 @@
-// This class describe glass. Glass is field for game
-// Class consist on grid cells
+// This class describe glass. Glass is game field which consists on grid of cells
+// Figure with color cells fells down into glass and takes free place. Thus glass is filling color cells.
+// Timer defines frequency of steps.
+// If three or more cell in row or column have same color, then they are deleted
+// The game finish if figures full fill glass at least in one column
 
 #ifndef GLASS_H
 #define GLASS_H
@@ -26,9 +29,10 @@ public:
     unsigned int columns() const; // number of columns in glass
     void setColumns(unsigned int newColumns); //setter
 
-    void glassInit(void);
-    void clearGlass(void);
-    void acceptColors(); // paint cells of glass after figure have fallen to bottom, delete redundant cells, swapFigure()
+    void glassInit(void); // create 2D-array
+    void clearGlass(void); // fill array by empty cells
+    void handleNewFigure(void); // save new cells, delete redundant cells, swap Figure, update score, redraw next figure
+    void acceptColors(void); //save cells colors of figure in the glass
     void deleterHor(uint row, uint startHor, uint finishHor); // Delete three or more cells on row
     void deleterVer(uint column, uint startVer, uint finishVer); // Delete three or more cells on column
     bool findHor(void); // Analysis, are there three or more cells of the same color on row?
@@ -40,10 +44,10 @@ public:
     ~Glass();
 
 signals:
-    signalChangePattern(Figure*); //
+    signalChangePattern(Figure*); // initiate redraw new next figure
     signalSetScore(int); // set new score
 public slots:
-    void mySlotGame(); //
+    void mySlotGame(); // start game after push button
 
 private:
     uint m_rows; // number of rows in glass

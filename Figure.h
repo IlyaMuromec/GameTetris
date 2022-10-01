@@ -2,6 +2,11 @@
 // Data about position of figure store in param m_indxH and m_indxW
 // Data about colors of figure store in array[3]
 
+// User can
+//  - move right and left figure by buttons right and left arrows.
+//  - rotate colors into figure by bottons up and down arrows
+//  - quickly drop down figure by botton space
+
 #ifndef FIGURE_H
 #define FIGURE_H
 

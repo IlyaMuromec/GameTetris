@@ -1,3 +1,6 @@
+// This class is auxiliary and releted with class figure
+// Goal this class is display in window next figure
+
 #ifndef NEXTFIGURE_H
 #define NEXTFIGURE_H
 

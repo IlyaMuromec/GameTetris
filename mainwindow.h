@@ -1,3 +1,5 @@
+// This class describes main window. Setting main window executes with Qt Designer
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

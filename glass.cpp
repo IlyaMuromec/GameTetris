@@ -44,9 +44,8 @@ void Glass::setColumns(unsigned int newColumns)
 
 void Glass::glassInit(void)
 {
-    // set number of rows in 2D-array
+    // create 2D-array
     m_glassArray.resize(m_rows);
-    // set number of columns in 2D-array
     for (uint i=0; i<m_rows;i++)
     {
         m_glassArray[i].resize(m_columns);
@@ -54,7 +53,7 @@ void Glass::glassInit(void)
     this->clearGlass();
     m_wGlass= m_columns * (m_cell+1); // define hight of glass
     m_hGlass= m_rows * (m_cell+1); // define wight of glass
-    this->setFixedSize(QSize(m_wGlass, m_hGlass));
+    this->setFixedSize(QSize(m_wGlass, m_hGlass)); // set size of Glass
     m_score=0;
 }
 
@@ -71,7 +70,7 @@ void Glass::clearGlass(void)
 }
 
 // Paint glass
-void Glass::paintEvent(QPaintEvent*event)
+void Glass::paintEvent(QPaintEvent*event) // view
 {
     QPainter painter(this);
 
@@ -87,7 +86,6 @@ void Glass::paintEvent(QPaintEvent*event)
             painter.drawRect(j*20, i*20, m_cell, m_cell);
         }
     }
-
     // add figure
     if(m_gameOn)
     {
@@ -99,30 +97,25 @@ void Glass::paintEvent(QPaintEvent*event)
     }
 }
 
-// initiate and start game
-void Glass::mySlotGame()
+// start game after push button
+void Glass::mySlotGame() // view
 {
     clearGlass();
     glassInit();
-    cur->setIndxH(0); // start position in vertical is head of figure in the first row
-    cur->setIndxW((this->m_columns)>>1); // stat position in horizontal is mid glass
-    next->setIndxH(0);
-    next->setIndxW(0);
-    emit signalChangePattern(next); //
-
+    swapFigure(cur, next);
     if(m_gameOn==true)
     {
-        qDebug()<<"Kill timer"<<m_idTimer;
+        //qDebug()<<"Kill timer"<<m_idTimer;
         this->killTimer(m_idTimer);
     }
     m_idTimer=this->startTimer(m_timerinterval);
-    qDebug()<<"Start timer:"<<m_idTimer;
+    //qDebug()<<"Start timer:"<<m_idTimer;
     this->setFocus(); //
     m_gameOn=true;
 }
 
 // handling of button
-void Glass::keyPressEvent(QKeyEvent*event)
+void Glass::keyPressEvent(QKeyEvent*event) // view
 {
     if(m_gameOn)
     {
@@ -152,7 +145,7 @@ void Glass::keyPressEvent(QKeyEvent*event)
                 {
                     cur->stepDown(); // step down while figure does not achieve bottom
                 }
-                acceptColors(); // save colors of figure in 2D-array of glass
+                handleNewFigure();
                 break;
             default:
                 QWidget::keyPressEvent(event); //
@@ -178,7 +171,7 @@ void Glass::timerEvent(QTimerEvent *event)
         }
         else
         {
-            this->acceptColors(); // save colors of figure in 2D-array of glass
+            handleNewFigure();
         }
     }
     else
@@ -188,7 +181,7 @@ void Glass::timerEvent(QTimerEvent *event)
     }
 }
 
-// save colors of figure in 2D-array of glass
+//
 void Glass::acceptColors()
 {
     for(uint j=0; j<3; j++)
@@ -196,23 +189,22 @@ void Glass::acceptColors()
         m_glassArray[cur->indxH()-j][cur->indxW()] = cur->color(j);
     }
 
+}
+void Glass::handleNewFigure()
+{
+    // 1) save colors of figure in 2D-array of glass
+    this->acceptColors();
+    // 2) find and delete three and more cells same colors
     bool flagDelete=true;
-
-    // Delete all combination of three and more cells same colors in row or columns
     while(flagDelete)
     {
         flagDelete=findHor();
         flagDelete=findVer();
     }
-    emit signalSetScore(m_score); //
-
+    // 3) update score
+    emit Glass::signalSetScore(m_score);
+    // 4) swap cur and next figures
     swapFigure(cur, next);
-    cur->setIndxH(0);
-    cur->setIndxW((this->m_columns)>>1);
-    next->setIndxH(0);
-    next->setIndxW(0);
-    next->makeRandomColors();
-    emit Glass::signalChangePattern(next); //
 }
 
 // Check and delete three or more cells of the same color on row
@@ -328,6 +320,14 @@ void Glass::swapFigure(Figure* cur, Figure* next)
     Figure tmp = *cur;
     *cur=*next;
     *next=tmp;
+
+    cur->setIndxH(0);
+    cur->setIndxW((this->m_columns)>>1);
+    next->setIndxH(0);
+    next->setIndxW(0);
+    next->makeRandomColors();
+
+    emit Glass::signalChangePattern(next); // signal to redraw a new figure
 }
 
 // add new methos
