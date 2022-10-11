@@ -15,4 +15,4 @@ Figure consist on three vertical random colors cell. User can:
  - rotate colors into figure by bottons up and down arrows
  - quickly drop down figure by botton space.
 
-NextFigure is is auxiliary class releted with class figure. Goal this class is display in window next figure
+NextFigure is auxiliary class releted with class figure. Goal this class is display in window next figure
