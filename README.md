@@ -5,9 +5,9 @@ The result of the decomposition of the project is the list of modules: main, mai
 
 Mainwindow is class inherited from the QMainWindow. Widget layout is done with QT Designer.
 
-Glass  is class inherited from the QWidget. Glass is game field which consists on grid of cells. 
+Glass is class inherited from the QWidget. Glass is game field which consists on grid of cells. 
 Figure with color cells fells down into glass and takes free place. Thus glass is filling color cells.
-Timer defines frequency of steps. If three or more cell in row or column have same color, then they are deleted
+Timer defines frequency of steps. If three or more cell in row or column have same color, then they are deleted.
 The game finish if figures full fill glass at least in one column.
 
 Figure consist on three vertical random colors cell. User can:
